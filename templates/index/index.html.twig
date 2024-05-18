@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bibliothèque</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+    <style> 
+        .hidden-element {
+            display: none !important;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="#">Bibliothèque</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Connexion</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Déconnexion</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="container mt-4">
+        <div class="icons row">
+            <!-- Icône pour Livre -->
+            <div class="col-md-2">
+                <a href="{{path('app_livres')}}">
+                    <i class="fas fa-book"></i>
+                    <span>Livre</span>
+                </a>
+            </div>
+            <!-- Icône pour Auteur -->
+            <div class="col-md-2">
+                <a href="{{path('app_auteurs')}}">
+                    <i class="fas fa-user"></i>
+                    <span>Auteur</span>
+                </a>
+            </div>
+            <!-- Icône pour Utilisateur -->
+            <div class="col-md-2">
+                <a href="#">
+                    <i class="fas fa-users"></i>
+                    <span>Utilisateur</span>
+                </a>
+            </div>
+            <!-- Icône pour Étudiant -->
+            <div class="col-md-2">
+                <a href="{{path('etudiant_index')}}">
+                    <i class="fas fa-graduation-cap"></i>
+                    <span>Étudiant</span>
+                </a>
+            </div>
+            <!-- Icône pour Emprunt -->
+            <div class="col-md-2">
+                <a href="{{path('emprunt_livre_index')}}">
+                    <i class="fas fa-handshake"></i>
+                    <span>Emprunt</span>
+                </a>
+            </div>
+            <!-- Icône pour la recherche -->
+            <div class="col-md-2">
+                <a href="#">
+                    <i class="fas fa-search"></i>
+                    <span>Recherche</span>
+                </a>
+            </div>
+        </div>
+        <p><h2>Liste des livres</h2></p><br>
+
+<div class="row mt-4 d-flex justify-content-between" id="livresContainer">
+    {% for livre in livres %}
+        <div class="col-md-3 {% if loop.index > 4 %}hidden{% endif %}">
+            <img src="{{ asset('assets/imgs/' ~ livre.image) }}" alt="{{ livre.nomLivre }}" class="img-fluid rounded" style="width: 100%; height: 200px;">
+
+            <p>{{ livre.nomLivre }}</p>
+        </div>
+    {% endfor %}
+</div>
+
+{% if livres|length > 4 %}
+    <div class="col-md-3">
+        <!-- Bouton pour afficher les autres livres -->
+        <a href="#" class="btn btn-primary" id="showMoreBtn">Voir plus de livres</a>
+    </div>
+{% endif %}
+
+
+
+
+<script>
+    // Fonction pour afficher les autres livres lors du clic sur le bouton "Voir plus"
+    document.getElementById('showMoreBtn').addEventListener('click', function() {
+        var hiddenBooks = document.querySelectorAll('.hidden');
+        for (var i = 0; i < hiddenBooks.length; i++) {
+            hiddenBooks[i].classList.remove('hidden');
+            hiddenBooks[i].classList.add('shown');
+        }
+        this.style.display = 'none'; // Masquer le bouton après avoir affiché tous les livres
+    });
+</script>
+
+
+
+    </main>
+
+    <footer class="mt-4">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <h4>Informations de pied de page</h4>
+                    <p>Insérer vos informations de pied de page ici...</p>
+                </div>
+                <div class="col-md-6">
+                    <h4>Contactez-nous</h4>
+                    <p>Insérer vos coordonnées de contact ici...</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+    window.addEventListener('load', () => {
+        const livreContainer = document.getElementById("livresContainer");
+        for (let i = 4; i < livreContainer.children.length; i++) {
+            livreContainer.children[i].classList.add('hidden-element');
+        }
+    });
+    
+    document.getElementById('showMoreBtn').addEventListener('click', function() {
+        const livreContainer = document.getElementById("livresContainer");
+        for (let i = 4; i < livreContainer.children.length; i++) {
+            livreContainer.children[i].classList.remove('hidden-element');
+        }
+    });
+</script>
+    <!-- jQuery and Bootstrap JS -->
+    <script src="{{ asset('js/script.js') }}"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

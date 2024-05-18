@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des étudiants{% endblock %}
+
+{% block body %}
+    <h1>Liste des étudiants</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nom</th>
+                <th>Prénom</th>
+                <th>Filière</th> <!-- Add Filière field -->
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for etudiant in etudiants %}
+                <tr>
+                    <td>{{ etudiant.id }}</td>
+                    <td>{{ etudiant.nom }}</td>
+                    <td>{{ etudiant.prenom }}</td>
+                    <td>{{ etudiant.filiere }}</td> <!-- Add Filière field -->
+                    <td>
+                        <a href="{{ path('etudiant_edit', {'id': etudiant.id}) }}" class="btn btn-primary btn-sm">Modifier</a>
+                        <form action="{{ path('etudiant_delete', {'id': etudiant.id}) }}" method="post" style="display: inline;">
+                            <input type="hidden" name="_method" value="DELETE">
+                            <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ etudiant.id) }}">
+                            <button type="submit" class="btn btn-danger btn-sm">Supprimer</button>
+                        </form>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('etudiant_new') }}" class="btn btn-success">Ajouter un étudiant</a>
+    
+    <a href="{{ path('index') }}" class="btn btn-secondary">Retour</a>
+{% endblock %}

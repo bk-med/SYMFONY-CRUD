@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Liste des auteurs</title>
+    <!-- Inclure les liens vers les styles CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* Vos styles personnalisés ici */
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Liste des auteurs</h1>
+        <a href="{{ path('ajouter_auteur') }}" class="btn btn-primary mb-3">Ajouter un auteur</a>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Nom</th>
+                    <th>Email</th>
+                    <th>Livre</th>
+                    <th>Image</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for auteur in auteurs %}
+                <tr>
+                    <td>{{ auteur.id }}</td>
+                    <td>{{ auteur.nom }}</td>
+                    <td>{{ auteur.email }}</td>
+                    <td>{{ auteur.livre }}</td>
+                    <td><img src="{{ auteur.image }}" alt="{{ auteur.nom }}" style="max-width: 100px;"></td>
+                    <td>
+                        <a href="{{ path('modifier_auteur', {'id': auteur.id}) }}" class="btn btn-warning btn-sm">Modifier</a>
+                        <a href="{{ path('supprimer_auteur', {'id': auteur.id}) }}" class="btn btn-danger btn-sm">Supprimer</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

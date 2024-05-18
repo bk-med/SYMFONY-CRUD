@@ -1,0 +1,90 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Liste des livres</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Ajoutez vos propres styles CSS ici -->
+    <style>
+        /* Vos styles CSS personnalisés ici */
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 1rem;
+            background-color: #fff;
+        }
+
+        .table th,
+        .table td {
+            padding: 0.75rem;
+            vertical-align: top;
+            border-top: 1px solid #dee2e6;
+        }
+
+        .table thead th {
+            vertical-align: bottom;
+            border-bottom: 2px solid #dee2e6;
+        }
+
+        .table tbody+tbody {
+            border-top: 2px solid #dee2e6;
+        }
+    </style>
+</head>
+<body>
+    <div class="container-xxl flex-grow-1 container-p-y">
+        <h3>Listes des livres</h3>
+        <a href="{{url('app_ajouter_livre')}}"><button type="button" class="btn rounded-pill btn-primary">Ajouter</button></a>
+        <table class="table table-condensed">
+            <thead>
+                <tr>
+                    <th>Numero</th>
+                    <th>Nom livre</th>
+                    <th>Auteur livre</th>
+                    <th>Reference</th>
+                    <th>Ouvrage</th>
+                    <th>Année de publication</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for livre in livres %}
+                    <tr>
+                        <td>{{loop.index}}</td>
+                        <td>{{livre.nomLivre}}</td>
+                        <td>{{livre.auteur}}</td>
+                        <td>{{livre.reference}}</td>
+                        <td>{{livre.ouvrage}}</td>
+                        <td>{{livre.getAnneePublication()|date('d-m-Y')}}</td>
+                        <td>
+                            <a class="btn rounded-pill btn-warning" href="{{url('app_modifier_livre', {'id':livre.id})}}">Modifier</a>
+                            <a class="btn rounded-pill btn-danger" data-bs-toggle="modal" data-bs-target="#myModal">Supprimer</a>
+                            <div class="modal" id="myModal">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h4 class="modal-title">Suppression d'un livre</h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            Cette action est irréversible !
+                                            Voulez-vous supprimer ce livre ?
+                                        </div>
+                                        <div class="modal-footer">
+                                            <a class="btn rounded-pill btn-danger" href="{{url('app_supprimer_livre', {'id':livre.id})}}">Confirmez</a>
+                                            <a class="btn btn-secondary" data-bs-dismiss="modal">Annuler</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
