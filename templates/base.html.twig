@@ -1,39 +1,145 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8">
-        <title>{% block title %}Liste des livres {% endblock %}</title>
-        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
-
-		<meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="icon" type="image/x-icon" href="favicon.ico">
-        <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-        <!-- Bootstrap 5.2.3 CSS -->
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css">
-        
-        <!-- Bootstrap 5.2.3 Bundle JS -->
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
-        
-        <!-- jQuery -->
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
-        
-        <!-- Bootstrap 3.4.1 CSS -->
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-        
-        <!-- Bootstrap 3.4.1 Bundle JS -->
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-        {% block stylesheets %}
-            {{ encore_entry_link_tags('app') }}
-        {% endblock %}
-
-        {% block javascripts %}
-            {{ encore_entry_script_tags('app') }}
-        {% endblock %}
-    </head>
-    <body>
-        <div class="container">
-            {% block body %}{% endblock %}
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Welcome!{% endblock %}</title>
+    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 128 128'><text y='1.2em' font-size='96'>⚫️</text></svg>">
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    {% block stylesheets %}
+        {{ encore_entry_link_tags('app') }}
+    {% endblock %}
+    <style>
+        #main-nav ul {
+            list-style: none;
+            padding: 0;
+        }
+        #main-nav ul li {
+            margin: 10px 0;
+        }
+        #main-nav ul li.active a {
+            font-weight: bold;
+            color: red;
+        }
+        #main-nav ul li a {
+            text-decoration: none;
+            color: black;
+        }
+        #main-nav ul li a i {
+            margin-right: 5px;
+        }
+    </style>
+</head>
+<body>
+<header>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="#">Bibliothèque</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Connexion</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Déconnexion</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">
+                        <i class="fas fa-search"></i>
+                        <span>Recherche</span>
+                    </a>
+                </li>
+            </ul>
         </div>
-    </body>
+    </nav>
+</header>
+<div class="container-fluid">
+    <div class="row">
+        <nav id="main-nav" class="col-md-2 bg-light p-3">
+            {% set routeName = app.request.attributes.get('_route') %}
+            <ul>
+                <li class="{{ routeName == 'default_home' ? 'active' : '' }}">
+                    <a href="#">
+                        <i class="fa fa-home me-2"></i>Accueil
+                    </a>
+                </li>
+                {% if is_granted('ROLE_COMMANDE') %}
+                <li class="{{ routeName == 'default_contact' ? 'active' : '' }}">
+                    <a href="#">
+                        <i class="fa fa-book me-2"></i>Contact
+                    </a>
+                </li>
+                {% endif %}
+                <li class="{{ routeName == 'default_contact_us' ? 'active' : '' }}">
+                    <a href="#">
+                        <i class="fa fa-envelope me-2"></i>Contact us
+                    </a>
+                </li>
+                <li class="{{ routeName == 'app_livres' ? 'active' : '' }}">
+                    <a href="{{ path('app_livres') }}">
+                        <i class="fa fa-book me-2"></i>Livres
+                    </a>
+                </li>
+                <li class="{{ routeName == 'etudiant_index' ? 'active' : '' }}">
+                    <a href="{{ path('etudiant_index') }}">
+                        <i class="fa fa-graduation-cap me-2"></i>Étudiants
+                    </a>
+                </li>
+                <li class="{{ routeName == 'app_auteurs' ? 'active' : '' }}">
+                    <a href="{{ path('app_auteurs') }}">
+                        <i class="fa fa-user me-2"></i>Auteurs
+                    </a>
+                </li>
+                <li class="{{ routeName == 'emprunt_livre_index' ? 'active' : '' }}">
+                    <a href="{{ path('emprunt_livre_index') }}">
+                        <i class="fa fa-handshake me-2"></i>Emprunts
+                    </a>
+                </li>
+                <li class="{{ routeName == 'app_utilisateurs' ? 'active' : '' }}">
+                    <a href="#">
+                        <i class="fa fa-users me-2"></i>Utilisateurs
+                    </a>
+                </li>
+                <li class="{{ routeName == 'app_bibliotheques' ? 'active' : '' }}">
+                    <a href="#">
+                        <i class="fa fa-search me-2"></i>Recherche
+                    </a>
+                </li>
+                <li class="{{ routeName == 'app_register' ? 'active' : '' }}">
+                    <a href="{{ path('app_register') }}">
+                        <i class="fa fa-user-plus me-2"></i>Register
+                    </a>
+                </li>
+                <li class="{{ routeName == 'security_login' ? 'active' : '' }}">
+                    <a href="#">
+                        <i class="fa fa-sign-in-alt me-2"></i>Login
+                    </a>
+                </li>
+            </ul>
+        </nav>
+        <main class="col-md-10 mt-4">
+            {% for message in app.flashes('success') %}
+                <div data-controller="toastr" data-message="{{ message }}" data-status="success"></div>
+            {% endfor %}
+            {% for message in app.flashes('error') %}
+                <div data-controller="toastr" data-message="{{ message }}" data-status="error"></div>
+            {% endfor %}
+            {% block body %}{% endblock %}
+        </main>
+    </div>
+</div>
+<footer></footer>
+{% block javascripts %}
+    {{ encore_entry_script_tags('app') }}
+<script src="{{ asset('js/main.js') }}"></script>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+{% endblock %}
+</body>
 </html>

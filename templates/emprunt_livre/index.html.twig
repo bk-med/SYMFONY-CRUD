@@ -1,55 +1,40 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ma Page</title>
-    <!-- Inclure le fichier CSS Bootstrap -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <!-- Inclure le fichier CSS personnalisé -->
-    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
-</head>
-<body>
-    <div class="container">
-        <h1 class="mt-4">Liste des Emprunts</h1>
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des Emprunts{% endblock %}
+
+{% block body %}
+    <h1 class="mt-4">Liste des Emprunts</h1>
         
-        <!-- Tableau des Emprunts -->
-        <table class="table table-striped mt-4">
-            <thead class="thead-dark">
+    <!-- Tableau des Emprunts -->
+    <table class="table table-striped mt-4">
+        <thead class="thead-dark">
+            <tr>
+                <th>ID</th>
+                <th>Étudiant</th>
+                <th>Livre</th>
+                <th>Date d'Emprunt</th>
+                <th>Date de Retour</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for emprunt in emprunts %}
                 <tr>
-                    <th>ID</th>
-                    <th>Étudiant</th>
-                    <th>Livre</th>
-                    <th>Date d'Emprunt</th>
-                    <th>Date de Retour</th>
-                    <th>Actions</th>
+                    <td>{{ emprunt.id }}</td>
+                    <td>{{ emprunt.etudiant.nom }}</td>
+                    <td>{{ emprunt.livre.nomLivre }}</td>
+                    <td>{{ emprunt.dateEmprunt|date('Y-m-d') }}</td>
+                    <td>{{ emprunt.dateRetour|date('Y-m-d') }}</td>
+                    <td>
+                        <!-- Boutons d'édition et de suppression -->
+                        <button class="btn btn-primary">Edit</button>
+                        <button class="btn btn-danger">Delete</button>
+                    </td>
                 </tr>
-            </thead>
-            <tbody>
-                {% for emprunt in emprunts %}
-                    <tr>
-                        <td>{{ emprunt.id }}</td>
-                        <td>{{ emprunt.etudiant.nom }}</td>
-                        <td>{{ emprunt.livre.nomLivre }}</td>
-                        <td>{{ emprunt.dateEmprunt|date('Y-m-d') }}</td>
-                        <td>{{ emprunt.dateRetour|date('Y-m-d') }}</td>
-                        <td>
-                            <!-- Boutons d'édition et de suppression -->
-                            <button class="btn btn-primary">Edit</button>
-                            <button class="btn btn-danger">Delete</button>
-                        </td>
-                    </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+            {% endfor %}
+        </tbody>
+    </table>
 
-        <!-- Bouton d'ajout -->
-        <a href="#" class="btn btn-success">Ajouter un Emprunt</a>
-    </div>
-
-    <!-- Inclure le fichier JavaScript Bootstrap -->
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <!-- Inclure le fichier JavaScript personnalisé -->
-    <script src="{{ asset('js/script.js') }}"></script>
-</body>
-</html>
+    <!-- Bouton d'ajout -->
+    <a href="#" class="btn btn-success">Ajouter un Emprunt</a>
+{% endblock %}

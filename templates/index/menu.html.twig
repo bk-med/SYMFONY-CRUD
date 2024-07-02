@@ -1,0 +1,18 @@
+{% set routeName = app.request.attributes.get('_route') %}
+
+<nav class="bg-light sidebar">
+    <ul class="navbar-nav">
+        <li class="nav-item">
+            <a class="nav-link" href="{{ path('home') }}">Home</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{{ path('about') }}">About</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{{ path('services') }}">Services</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{{ path('contact') }}">Contact</a>
+        </li>
+    </ul>
+</nav>
